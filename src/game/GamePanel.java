@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 400;
-	
+//trying to apply levels	
 	//Render
 	private Graphics2D g2d;
 	private BufferedImage image;
