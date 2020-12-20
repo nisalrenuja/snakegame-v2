@@ -24,13 +24,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	//Game Loop
 	private Thread thread;
 	private boolean running;
-	private long targetTime;
+	private long targetTime;	
 	
 	//Game stuff
 	private final int SIZE = 10;
 	private Entity head,apple;
 	private ArrayList<Entity> snake;
 	private int score;
+	private int level;
+	private boolean gameover;
 	
 	
 	//movement
@@ -61,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+	
 
 	}
 
@@ -129,7 +131,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		g2d = image.createGraphics();
 		running = true;
 		setUplevel();
-		setFPS(10);
+		gameover = false;
+		level = 1;
+		setFPS(level * 10);
 	}
 	
 	private void setUplevel() {
@@ -193,12 +197,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		}
 		head.move(dx, dy);
 		}
+		
+		for(Entity e : snake) {
+			if(e.isCollision(head)) {
+				gameover = true;
+				break;
+			}
+		}
+		
+		
 		if(apple.isCollision(head)) {
 			score++;
 			setApple();
 			Entity e = new Entity(SIZE);
 			e.setPosition(-100,-100);
 			snake.add(e);
+			if(score % 10 == 0) {
+				level++;
+				if(level > 10) level = 10;
+				setFPS(level * 10);
+			}
 			
 		}
 		
